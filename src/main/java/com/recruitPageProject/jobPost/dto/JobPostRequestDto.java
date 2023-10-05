@@ -1,15 +1,16 @@
 package com.recruitPageProject.jobPost.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
 public class JobPostRequestDto {
-	@NotBlank
+	@NotNull
 	Long companyId;
 	@NotBlank
 	String position;
-	@NotBlank
+	@NotNull
 	Long reward;
 	@NotBlank
 	String skill;
