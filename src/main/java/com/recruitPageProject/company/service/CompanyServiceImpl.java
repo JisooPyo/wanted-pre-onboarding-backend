@@ -1,5 +1,7 @@
 package com.recruitPageProject.company.service;
 
+import com.recruitPageProject.common.exception.CustomErrorCode;
+import com.recruitPageProject.common.exception.CustomException;
 import com.recruitPageProject.company.dto.CompanyRequestDto;
 import com.recruitPageProject.company.dto.CompanyResponseDto;
 import com.recruitPageProject.company.entity.Company;
@@ -22,5 +24,11 @@ public class CompanyServiceImpl implements CompanyService {
 		Company company = new Company(name, country, city);
 		companyRepository.save(company);
 		return new CompanyResponseDto(company);
+	}
+
+	public Company findCompany(Long id) {
+		return companyRepository.findById(id).orElseThrow(() ->
+				new CustomException(CustomErrorCode.COMPANY_NOT_FOUND)
+		);
 	}
 }
