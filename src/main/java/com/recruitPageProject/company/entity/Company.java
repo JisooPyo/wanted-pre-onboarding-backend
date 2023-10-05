@@ -13,17 +13,17 @@ public class Company {
 	private Long id;
 
 	@Column(nullable = false)
-	private String email;
-
-	@Column(nullable = false)
-	private String password;
-
-	@Column(nullable=false)
 	private String name;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String country;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String city;
+
+	public Company(String name, String country, String city) {
+		this.name = name;
+		this.country = country;
+		this.city = city;
+	}
 }
