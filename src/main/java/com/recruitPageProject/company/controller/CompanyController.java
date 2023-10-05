@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CompanyController {
 	private final CompanyService companyService;
 
-	@Operation(summary = "회사 등록", description = "등록에 필요한 정보를 받아 회사를 등록합니다.")
+	@Operation(summary = "회사 등록", description = "등록에 필요한 정보를 받아 회사를 등록합니다")
 	@PostMapping("/companys")
 	public ResponseEntity<CompanyResponseDto> createCompany(@Valid @RequestBody CompanyRequestDto requestDto) {
 		CompanyResponseDto responseDto = companyService.createCompany(requestDto);
