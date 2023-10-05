@@ -2,6 +2,7 @@ package com.recruitPageProject.jobPost.entity;
 
 import com.recruitPageProject.common.entity.Timestamped;
 import com.recruitPageProject.company.entity.Company;
+import com.recruitPageProject.jobPost.dto.JobPostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ public class JobPost extends Timestamped {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "company_id")
 	private Company company;
 
@@ -30,4 +31,11 @@ public class JobPost extends Timestamped {
 	@Column(nullable = true)
 	private Long reward;
 
+	public JobPost(Company company, JobPostRequestDto requestDto) {
+		this.company = company;
+		this.position = requestDto.getPosition();
+		this.skill = requestDto.getSkill();
+		this.contents = requestDto.getContents();
+		this.reward = requestDto.getReward();
+	}
 }
