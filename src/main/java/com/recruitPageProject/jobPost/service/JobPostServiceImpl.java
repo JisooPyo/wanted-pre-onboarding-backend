@@ -4,6 +4,7 @@ import com.recruitPageProject.common.exception.CustomErrorCode;
 import com.recruitPageProject.common.exception.CustomException;
 import com.recruitPageProject.company.entity.Company;
 import com.recruitPageProject.company.service.CompanyServiceImpl;
+import com.recruitPageProject.jobPost.dto.JobPostDeleteRequestDto;
 import com.recruitPageProject.jobPost.dto.JobPostFeedResponseDto;
 import com.recruitPageProject.jobPost.dto.JobPostRequestDto;
 import com.recruitPageProject.jobPost.entity.JobPost;
@@ -36,6 +37,16 @@ public class JobPostServiceImpl implements JobPostService {
 			throw new CustomException(CustomErrorCode.NO_AUTHORIZATION);
 		}
 		jobPost.update(requestDto);
+	}
+
+	@Override
+	public void deleteJobPost(JobPostDeleteRequestDto requestDto, Long id) {
+		Long companyId = requestDto.getCompanyId();
+		JobPost jobPost = findJobPost(id);
+		if (!jobPost.getCompany().getId().equals(companyId)) {
+			throw new CustomException(CustomErrorCode.NO_AUTHORIZATION);
+		}
+		jobPostRepository.deleteById(id);
 	}
 
 	private JobPost findJobPost(Long id) {
