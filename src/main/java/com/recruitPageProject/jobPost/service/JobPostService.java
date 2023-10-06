@@ -3,6 +3,7 @@ package com.recruitPageProject.jobPost.service;
 import com.recruitPageProject.jobPost.dto.JobPostDeleteRequestDto;
 import com.recruitPageProject.jobPost.dto.JobPostFeedResponseDto;
 import com.recruitPageProject.jobPost.dto.JobPostRequestDto;
+import com.recruitPageProject.jobPost.dto.JobPostResponseDto;
 
 import java.util.List;
 
@@ -32,4 +33,11 @@ public interface JobPostService {
 	 * @return List<JobPostFeedResponseDto> (피드에서 보여지는 전체 채용 공고)
 	 */
 	List<JobPostFeedResponseDto> getAllJobPosts();
+
+	/**
+	 * 
+	 * @param id (조회하려는 채용 공고)
+	 * @return JobPostResponseDto (채용 공고 상세 정보)
+	 */
+	JobPostResponseDto getJobPost(Long id);
 }

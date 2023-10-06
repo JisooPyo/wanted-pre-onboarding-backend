@@ -7,12 +7,14 @@ import com.recruitPageProject.company.service.CompanyServiceImpl;
 import com.recruitPageProject.jobPost.dto.JobPostDeleteRequestDto;
 import com.recruitPageProject.jobPost.dto.JobPostFeedResponseDto;
 import com.recruitPageProject.jobPost.dto.JobPostRequestDto;
+import com.recruitPageProject.jobPost.dto.JobPostResponseDto;
 import com.recruitPageProject.jobPost.entity.JobPost;
 import com.recruitPageProject.jobPost.repository.JobPostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,6 +57,19 @@ public class JobPostServiceImpl implements JobPostService {
 	public List<JobPostFeedResponseDto> getAllJobPosts() {
 		List<JobPost> jobPostList = jobPostRepository.findAllByOrderByIdDesc();
 		return jobPostList.stream().map(JobPostFeedResponseDto::new).toList();
+	}
+
+	@Override
+	public JobPostResponseDto getJobPost(Long id) {
+		JobPost jobPost = findJobPost(id);
+		JobPostResponseDto responseDto = new JobPostResponseDto(jobPost);
+		List<JobPost> otherJobPosts = jobPostRepository.findOtherJobPosts(id);
+		List<Long> otherJobPostsIdList = new ArrayList<>();
+		for(JobPost jp : otherJobPosts){
+			otherJobPostsIdList.add(jp.getId());
+		}
+		responseDto.addOtherJobPosts(otherJobPostsIdList);
+		return responseDto;
 	}
 
 	private JobPost findJobPost(Long id) {
