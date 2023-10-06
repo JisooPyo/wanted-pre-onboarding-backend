@@ -38,4 +38,11 @@ public class JobPost extends Timestamped {
 		this.contents = requestDto.getContents();
 		this.reward = requestDto.getReward();
 	}
+
+	public void update(JobPostRequestDto requestDto) {
+		this.position = requestDto.getPosition();
+		this.skill = requestDto.getSkill();
+		this.contents = requestDto.getContents();
+		this.reward = requestDto.getReward();
+	}
 }

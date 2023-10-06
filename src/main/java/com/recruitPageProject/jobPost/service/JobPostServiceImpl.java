@@ -1,5 +1,7 @@
 package com.recruitPageProject.jobPost.service;
 
+import com.recruitPageProject.common.exception.CustomErrorCode;
+import com.recruitPageProject.common.exception.CustomException;
 import com.recruitPageProject.company.entity.Company;
 import com.recruitPageProject.company.service.CompanyServiceImpl;
 import com.recruitPageProject.jobPost.dto.JobPostFeedResponseDto;
@@ -24,6 +26,21 @@ public class JobPostServiceImpl implements JobPostService {
 		JobPost jobPost = new JobPost(company, requestDto);
 		jobPostRepository.save(jobPost);
 		return new JobPostFeedResponseDto(jobPost);
+	}
+
+	@Override
+	public void updateJobPost(JobPostRequestDto requestDto, Long id) {
+		Long companyId = requestDto.getCompanyId();
+		JobPost jobPost = findJobPost(id);
+		if (!jobPost.getCompany().getId().equals(companyId)) {
+			throw new CustomException(CustomErrorCode.NO_AUTHORIZATION);
+		}
+		jobPost.update(requestDto);
+	}
+
+	private JobPost findJobPost(Long id) {
+		return jobPostRepository.findById(id).orElseThrow(() ->
+				new CustomException(CustomErrorCode.JOBPOST_NOT_FOUND));
 	}
 
 }
