@@ -40,4 +40,11 @@ public interface JobPostService {
 	 * @return JobPostResponseDto (채용 공고 상세 정보)
 	 */
 	JobPostResponseDto getJobPost(Long id);
+
+	/**
+	 *
+	 * @param search (검색어)
+	 * @return List<JobPostFeedResponseDto> (검색 결과 채용 공고)
+	 */
+	List<JobPostFeedResponseDto> searchJobPosts(String search);
 }

@@ -25,4 +25,25 @@ public class JobPostRepositoryImpl implements JobPostCustomRepository {
 				).and(jobPost.id.ne(id)))
 				.fetch();
 	}
+
+	@Override
+	public List<JobPost> searchJobPosts(String search) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("%");
+		sb.append(search);
+		sb.append("%");
+		String likeSearch = sb.toString();
+		return queryFactory.selectFrom(jobPost)
+				.where(
+						jobPost.company.name.like(likeSearch)
+								.or(jobPost.company.city.like(likeSearch))
+								.or(jobPost.company.country.like(likeSearch))
+								.or(jobPost.position.like(likeSearch))
+								.or(jobPost.contents.like(likeSearch))
+								.or(jobPost.position.like(likeSearch))
+								.or(jobPost.skill.like(likeSearch))
+				)
+				.orderBy(jobPost.id.desc())
+				.fetch();
+	}
 }

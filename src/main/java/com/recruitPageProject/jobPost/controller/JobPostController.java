@@ -45,10 +45,10 @@ public class JobPostController {
 	}
 
 	@Operation(summary = "모든 채용 공고 조회", description = "모든 채용 공고를 조회합니다.")
-	@GetMapping("/jobPosts")
+	@GetMapping("/jobPosts/all")
 	public ResponseEntity<List<JobPostFeedResponseDto>> getAllJobPosts() {
-		List<JobPostFeedResponseDto> jobPostFeedResponseDtoList = jobPostService.getAllJobPosts();
-		return ResponseEntity.ok().body(jobPostFeedResponseDtoList);
+		List<JobPostFeedResponseDto> responseDtoList = jobPostService.getAllJobPosts();
+		return ResponseEntity.ok().body(responseDtoList);
 	}
 
 	@Operation(summary = "채용 공고 상세 조회", description = "특정 채용 공고를 상세 조회합니다.")
@@ -57,4 +57,12 @@ public class JobPostController {
 		JobPostResponseDto responseDto = jobPostService.getJobPost(id);
 		return ResponseEntity.ok().body(responseDto);
 	}
+
+	@Operation(summary = "채용 공고 검색", description = "채용 공고를 검색합니다.")
+	@GetMapping("/jobPosts")
+	public ResponseEntity<List<JobPostFeedResponseDto>> searchJobPosts(@RequestParam String search){
+		List<JobPostFeedResponseDto> responseDtoList = jobPostService.searchJobPosts(search);
+		return ResponseEntity.ok().body(responseDtoList);
+	}
+
 }
