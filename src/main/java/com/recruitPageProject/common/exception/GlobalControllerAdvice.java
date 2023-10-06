@@ -2,7 +2,6 @@ package com.recruitPageProject.common.exception;
 
 import com.recruitPageProject.common.dto.ApiResponseDto;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalControllerAdvice {
 	@ExceptionHandler({CustomException.class})
 	public ResponseEntity<ApiResponseDto> handlerCustomException(CustomException e) {
-		ApiResponseDto restApiException = new ApiResponseDto(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+		ApiResponseDto restApiException = new ApiResponseDto(e.getErrorCode().getErrorCode(), e.getMessage());
 		return ResponseEntity.badRequest().body(restApiException);
 	}
 
