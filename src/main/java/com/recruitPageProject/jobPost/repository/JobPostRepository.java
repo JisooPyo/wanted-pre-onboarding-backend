@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JobPostRepository extends JpaRepository<JobPost, Long> {
+public interface JobPostRepository extends JpaRepository<JobPost, Long>, JobPostCustomRepository {
 	List<JobPost> findAllByOrderByIdDesc();
 }

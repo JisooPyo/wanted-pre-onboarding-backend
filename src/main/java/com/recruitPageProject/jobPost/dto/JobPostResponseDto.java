@@ -28,4 +28,8 @@ public class JobPostResponseDto {
 		this.skill = jobPost.getSkill();
 		this.contents = jobPost.getContents();
 	}
+
+	public void addOtherJobPosts(List<Long> otherJobPosts) {
+		this.otherJobPosts = otherJobPosts;
+	}
 }

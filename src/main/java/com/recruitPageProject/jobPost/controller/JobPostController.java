@@ -4,6 +4,7 @@ import com.recruitPageProject.common.dto.ApiResponseDto;
 import com.recruitPageProject.jobPost.dto.JobPostDeleteRequestDto;
 import com.recruitPageProject.jobPost.dto.JobPostFeedResponseDto;
 import com.recruitPageProject.jobPost.dto.JobPostRequestDto;
+import com.recruitPageProject.jobPost.dto.JobPostResponseDto;
 import com.recruitPageProject.jobPost.service.JobPostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,5 +49,12 @@ public class JobPostController {
 	public ResponseEntity<List<JobPostFeedResponseDto>> getAllJobPosts() {
 		List<JobPostFeedResponseDto> jobPostFeedResponseDtoList = jobPostService.getAllJobPosts();
 		return ResponseEntity.ok().body(jobPostFeedResponseDtoList);
+	}
+
+	@Operation(summary = "채용 공고 상세 조회", description = "특정 채용 공고를 상세 조회합니다.")
+	@GetMapping("/jobPost/{id}")
+	public ResponseEntity<JobPostResponseDto> getJobPost(@PathVariable Long id) {
+		JobPostResponseDto responseDto = jobPostService.getJobPost(id);
+		return ResponseEntity.ok().body(responseDto);
 	}
 }
