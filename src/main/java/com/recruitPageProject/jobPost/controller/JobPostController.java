@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -39,5 +41,12 @@ public class JobPostController {
 	public ResponseEntity<ApiResponseDto> deleteJobPost(@Valid @RequestBody JobPostDeleteRequestDto requestDto, @PathVariable Long id) {
 		jobPostService.deleteJobPost(requestDto, id);
 		return ResponseEntity.ok().body(new ApiResponseDto(HttpStatus.OK.value(), "채용 공고 삭제 완료"));
+	}
+
+	@Operation(summary = "모든 채용 공고 조회", description = "모든 채용 공고를 조회합니다.")
+	@GetMapping("/jobPosts")
+	public ResponseEntity<List<JobPostFeedResponseDto>> getAllJobPosts() {
+		List<JobPostFeedResponseDto> jobPostFeedResponseDtoList = jobPostService.getAllJobPosts();
+		return ResponseEntity.ok().body(jobPostFeedResponseDtoList);
 	}
 }

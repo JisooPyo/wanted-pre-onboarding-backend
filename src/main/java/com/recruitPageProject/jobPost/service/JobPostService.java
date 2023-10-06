@@ -4,6 +4,8 @@ import com.recruitPageProject.jobPost.dto.JobPostDeleteRequestDto;
 import com.recruitPageProject.jobPost.dto.JobPostFeedResponseDto;
 import com.recruitPageProject.jobPost.dto.JobPostRequestDto;
 
+import java.util.List;
+
 public interface JobPostService {
 	/**
 	 * @param requestDto (채용 공고 등록 정보)
@@ -24,4 +26,10 @@ public interface JobPostService {
 	 * @param id (삭제할 채용 공고 id)
 	 */
 	void deleteJobPost(JobPostDeleteRequestDto requestDto, Long id);
+
+	/**
+	 *
+	 * @return List<JobPostFeedResponseDto> (피드에서 보여지는 전체 채용 공고)
+	 */
+	List<JobPostFeedResponseDto> getAllJobPosts();
 }

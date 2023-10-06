@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -47,6 +49,12 @@ public class JobPostServiceImpl implements JobPostService {
 			throw new CustomException(CustomErrorCode.NO_AUTHORIZATION);
 		}
 		jobPostRepository.deleteById(id);
+	}
+
+	@Override
+	public List<JobPostFeedResponseDto> getAllJobPosts() {
+		List<JobPost> jobPostList = jobPostRepository.findAllByOrderByIdDesc();
+		return jobPostList.stream().map(JobPostFeedResponseDto::new).toList();
 	}
 
 	private JobPost findJobPost(Long id) {
