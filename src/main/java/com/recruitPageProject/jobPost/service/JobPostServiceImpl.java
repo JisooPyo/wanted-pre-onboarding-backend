@@ -65,14 +65,14 @@ public class JobPostServiceImpl implements JobPostService {
 		JobPostResponseDto responseDto = new JobPostResponseDto(jobPost);
 		List<JobPost> otherJobPosts = jobPostRepository.findOtherJobPosts(id);
 		List<Long> otherJobPostsIdList = new ArrayList<>();
-		for(JobPost jp : otherJobPosts){
+		for (JobPost jp : otherJobPosts) {
 			otherJobPostsIdList.add(jp.getId());
 		}
 		responseDto.addOtherJobPosts(otherJobPostsIdList);
 		return responseDto;
 	}
 
-	private JobPost findJobPost(Long id) {
+	public JobPost findJobPost(Long id) {
 		return jobPostRepository.findById(id).orElseThrow(() ->
 				new CustomException(CustomErrorCode.JOBPOST_NOT_FOUND));
 	}

@@ -16,11 +16,15 @@ public class Apply extends Timestamped {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="job_post_id")
+	@JoinColumn(name = "job_post_id")
 	private JobPost jobPost;
 
+	public Apply(User user, JobPost jobPost) {
+		this.user = user;
+		this.jobPost = jobPost;
+	}
 }
