@@ -72,6 +72,15 @@ public class JobPostServiceImpl implements JobPostService {
 		return responseDto;
 	}
 
+	@Override
+	public List<JobPostFeedResponseDto> searchJobPosts(String search) {
+		if (search.length() == 0) {
+			throw new CustomException(CustomErrorCode.EMPTY_SEARCH);
+		}
+		List<JobPost> searchList = jobPostRepository.searchJobPosts(search);
+		return searchList.stream().map(JobPostFeedResponseDto::new).toList();
+	}
+
 	public JobPost findJobPost(Long id) {
 		return jobPostRepository.findById(id).orElseThrow(() ->
 				new CustomException(CustomErrorCode.JOBPOST_NOT_FOUND));
