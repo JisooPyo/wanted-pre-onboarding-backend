@@ -1,6 +1,7 @@
 package com.recruitPageProject.jobPost.controller;
 
 import com.recruitPageProject.common.dto.ApiResponseDto;
+import com.recruitPageProject.jobPost.dto.JobPostDeleteRequestDto;
 import com.recruitPageProject.jobPost.dto.JobPostFeedResponseDto;
 import com.recruitPageProject.jobPost.dto.JobPostRequestDto;
 import com.recruitPageProject.jobPost.service.JobPostService;
@@ -27,9 +28,16 @@ public class JobPostController {
 	}
 
 	@Operation(summary = "채용 공고 수정", description = "수정에 필요한 정보를 받아 채용 공고를 수정합니다")
-	@PutMapping("/jobPosts/{id}")
+	@PutMapping("/jobPost/{id}")
 	public ResponseEntity<ApiResponseDto> updateJobPost(@Valid @RequestBody JobPostRequestDto requestDto, @PathVariable Long id) {
 		jobPostService.updateJobPost(requestDto, id);
 		return ResponseEntity.ok().body(new ApiResponseDto(HttpStatus.OK.value(), "채용 공고 수정 완료"));
+	}
+
+	@Operation(summary = "채용 공고 삭제", description = "삭제에 필요한 정보를 받아 채용 공고를 삭제합니다")
+	@DeleteMapping("/jobPost/{id}")
+	public ResponseEntity<ApiResponseDto> deleteJobPost(@Valid @RequestBody JobPostDeleteRequestDto requestDto, @PathVariable Long id) {
+		jobPostService.deleteJobPost(requestDto, id);
+		return ResponseEntity.ok().body(new ApiResponseDto(HttpStatus.OK.value(), "채용 공고 삭제 완료"));
 	}
 }
