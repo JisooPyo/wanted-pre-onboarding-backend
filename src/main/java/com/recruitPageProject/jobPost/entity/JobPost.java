@@ -4,11 +4,15 @@ import com.recruitPageProject.common.entity.Timestamped;
 import com.recruitPageProject.company.entity.Company;
 import com.recruitPageProject.jobPost.dto.JobPostRequestDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class JobPost extends Timestamped {
 	@Id
