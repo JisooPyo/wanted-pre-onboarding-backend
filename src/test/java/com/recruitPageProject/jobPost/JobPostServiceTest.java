@@ -23,7 +23,6 @@ import java.util.Optional;
 
 import static com.recruitPageProject.common.exception.CustomErrorCode.JOBPOST_NOT_FOUND;
 import static com.recruitPageProject.common.exception.CustomErrorCode.NO_AUTHORIZATION;
-import static com.recruitPageProject.jobPost.entity.QJobPost.jobPost;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
