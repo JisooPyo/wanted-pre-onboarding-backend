@@ -6,6 +6,7 @@ import com.recruitPageProject.company.service.CompanyServiceImpl;
 import com.recruitPageProject.jobPost.dto.JobPostDeleteRequestDto;
 import com.recruitPageProject.jobPost.dto.JobPostFeedResponseDto;
 import com.recruitPageProject.jobPost.dto.JobPostRequestDto;
+import com.recruitPageProject.jobPost.dto.JobPostResponseDto;
 import com.recruitPageProject.jobPost.entity.JobPost;
 import com.recruitPageProject.jobPost.repository.JobPostRepository;
 import com.recruitPageProject.jobPost.service.JobPostServiceImpl;
@@ -159,7 +160,7 @@ public class JobPostServiceTest {
 
 	@Test
 	@DisplayName("모든 채용 공고 목록 조회 테스트")
-	void getAllJobPostsTest(){
+	void getAllJobPostsTest() {
 		// given
 		// 가상의 JobPost 객체들을 생성
 		List<JobPost> mockJobPostList = new ArrayList<>();
@@ -177,6 +178,35 @@ public class JobPostServiceTest {
 
 		// then
 		assertEquals(mockJobPostList.size(), result.size());
+	}
+
+	@Test
+	@DisplayName("채용 공고 상세 조회 테스트")
+	void getJobPostTest() {
+		// given
+		JobPost jobPost1 = initJobPost(1L, 1L);
+		JobPost jobPost2 = initJobPost(1L, 2L);
+		JobPost jobPost3 = initJobPost(1L, 3L);
+		JobPost jobPost4 = initJobPost(1L, 4L);
+
+		List<JobPost> jobPostList = new ArrayList<>();
+		jobPostList.add(jobPost1);
+		jobPostList.add(jobPost2);
+		jobPostList.add(jobPost4);
+
+		when(jobPostRepository.findById(3L)).thenReturn(Optional.of(jobPost3));
+		when(jobPostRepository.findOtherJobPosts(3L)).thenReturn(jobPostList);
+
+		// when
+		JobPostResponseDto responseDto = jobPostService.getJobPost(3L);
+
+		// then
+		assertEquals(jobPostList.size(), responseDto.getOtherJobPosts().size());
+		assertEquals(3L, responseDto.getId());
+		assertEquals("테스트 포지션", responseDto.getPosition());
+		assertEquals("테스트 스킬", responseDto.getSkill());
+		assertEquals(1_500_000L, responseDto.getReward());
+		assertEquals("테스트 채용 공고 내용", responseDto.getContents());
 	}
 
 	JobPost initJobPost(Long companyId, Long jobPostId) {
