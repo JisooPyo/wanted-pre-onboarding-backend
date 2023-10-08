@@ -3,6 +3,7 @@ package com.recruitPageProject.jobPost;
 import com.recruitPageProject.common.exception.CustomException;
 import com.recruitPageProject.company.entity.Company;
 import com.recruitPageProject.company.service.CompanyServiceImpl;
+import com.recruitPageProject.jobPost.dto.JobPostDeleteRequestDto;
 import com.recruitPageProject.jobPost.dto.JobPostFeedResponseDto;
 import com.recruitPageProject.jobPost.dto.JobPostRequestDto;
 import com.recruitPageProject.jobPost.entity.JobPost;
@@ -22,6 +23,7 @@ import java.util.Optional;
 
 import static com.recruitPageProject.common.exception.CustomErrorCode.JOBPOST_NOT_FOUND;
 import static com.recruitPageProject.common.exception.CustomErrorCode.NO_AUTHORIZATION;
+import static com.recruitPageProject.jobPost.entity.QJobPost.jobPost;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -94,12 +96,7 @@ public class JobPostServiceTest {
 	@DisplayName("채용 공고 수정 테스트 - 권한이 있을 때")
 	void updateJobPostTest2() {
 		// given
-		// 초기 JobPost 인스턴스 생성
-		Company company = Company.builder().id(100L).build();
-		JobPost jobPost = JobPost.builder()
-				.id(37L).company(company).position("테스트 포지션")
-				.reward(1_500_000L).skill("테스트 스킬")
-				.contents("테스트 채용 공고 내용").build();
+		JobPost jobPost = initJobPost();
 
 		// 수정 필요 정보 JobPostRequestDto
 		JobPostRequestDto requestDto = JobPostRequestDto.builder()
@@ -123,12 +120,7 @@ public class JobPostServiceTest {
 	@DisplayName("채용 공고 수정 테스트 - 권한이 없을 때")
 	void updateJobPostTest3() {
 		// given
-		// 초기 JobPost 인스턴스 생성
-		Company company = Company.builder().id(100L).build();
-		JobPost jobPost = JobPost.builder()
-				.id(37L).company(company).position("테스트 포지션")
-				.reward(1_500_000L).skill("테스트 스킬")
-				.contents("테스트 채용 공고 내용").build();
+		JobPost jobPost = initJobPost();
 
 		// 수정 필요 정보 : 100번 회사의 채용공고를 50번 회사가 고치려고 시도
 		JobPostRequestDto requestDto = JobPostRequestDto.builder()
@@ -146,5 +138,31 @@ public class JobPostServiceTest {
 		assertEquals("권한이 없습니다.", exception.getErrorCode().getErrorMessage());
 		assertEquals(HttpStatus.UNAUTHORIZED.value(), exception.getErrorCode().getErrorCode());
 
+	}
+
+	@Test
+	@DisplayName("채용 공고 삭제 테스트")
+	void deleteJobPostTest() {
+		// given
+		JobPost jobPost = initJobPost();
+		JobPostDeleteRequestDto requestDto = JobPostDeleteRequestDto.builder().companyId(100L).build();
+
+		when(jobPostRepository.findById(37L)).thenReturn(Optional.of(jobPost));
+
+		// when
+		jobPostService.deleteJobPost(requestDto, 37L);
+
+		// then
+		verify(jobPostRepository, times(1)).deleteById(37L);
+	}
+
+	JobPost initJobPost() {
+		// 초기 JobPost 인스턴스 생성
+		Company company = Company.builder().id(100L).build();
+		JobPost jobPost = JobPost.builder()
+				.id(37L).company(company).position("테스트 포지션")
+				.reward(1_500_000L).skill("테스트 스킬")
+				.contents("테스트 채용 공고 내용").build();
+		return jobPost;
 	}
 }
