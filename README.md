@@ -1,6 +1,8 @@
 # wanted-pre-onboarding-backend
 Wanted 프리온보딩 백엔드 인턴십 선발과제
 
+<br>
+
 ## 📝 과제 안내
 
 > 다음의 서비스 개요 및 요구사항을 만족하는 API 서버를 구현
@@ -127,19 +129,19 @@ ex. 테스트 코드: test/이슈번호/{짧은 설명}
 
 <br>
 
-## ERD
+## 🔗 ERD
 
 <img src="https://github.com/JisooPyo/wanted-pre-onboarding-backend/assets/130378232/650ae18e-a25d-4add-8bf1-581cd874b3b6" width=900px>
 
 <br><br>
 
-## REST API
+## 📋 REST API
 
 노션 링크 클릭 -> [REST API 보러 가기](https://sugary-curtain-79b.notion.site/REST-API-e0cec84e85a545bfb788090f3d56b799?pvs=4)
 
 <br>
 
-## 기술 스택
+## 🛠 기술 스택
 
 <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=OpenJDK&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=spring&logoColor=white">&nbsp;
@@ -156,7 +158,7 @@ ex. 테스트 코드: test/이슈번호/{짧은 설명}
 
 <br>
 
-## 구현 내용
+## 👩‍💻 구현 내용
 
 ###### 링크를 누르면 해당 PR로 이동합니다.
 
