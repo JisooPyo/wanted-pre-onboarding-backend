@@ -21,7 +21,6 @@ import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.recruitPageProject.common.exception.CustomErrorCode.ALREADY_APPLY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
