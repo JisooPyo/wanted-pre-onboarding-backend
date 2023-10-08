@@ -19,6 +19,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.recruitPageProject.common.exception.CustomErrorCode.JOBPOST_NOT_FOUND;
@@ -95,7 +97,7 @@ public class JobPostServiceTest {
 	@DisplayName("채용 공고 수정 테스트 - 권한이 있을 때")
 	void updateJobPostTest2() {
 		// given
-		JobPost jobPost = initJobPost();
+		JobPost jobPost = initJobPost(100L, 37L);
 
 		// 수정 필요 정보 JobPostRequestDto
 		JobPostRequestDto requestDto = JobPostRequestDto.builder()
@@ -119,7 +121,7 @@ public class JobPostServiceTest {
 	@DisplayName("채용 공고 수정 테스트 - 권한이 없을 때")
 	void updateJobPostTest3() {
 		// given
-		JobPost jobPost = initJobPost();
+		JobPost jobPost = initJobPost(100L, 37L);
 
 		// 수정 필요 정보 : 100번 회사의 채용공고를 50번 회사가 고치려고 시도
 		JobPostRequestDto requestDto = JobPostRequestDto.builder()
@@ -143,7 +145,7 @@ public class JobPostServiceTest {
 	@DisplayName("채용 공고 삭제 테스트")
 	void deleteJobPostTest() {
 		// given
-		JobPost jobPost = initJobPost();
+		JobPost jobPost = initJobPost(100L, 37L);
 		JobPostDeleteRequestDto requestDto = JobPostDeleteRequestDto.builder().companyId(100L).build();
 
 		when(jobPostRepository.findById(37L)).thenReturn(Optional.of(jobPost));
@@ -155,11 +157,33 @@ public class JobPostServiceTest {
 		verify(jobPostRepository, times(1)).deleteById(37L);
 	}
 
-	JobPost initJobPost() {
+	@Test
+	@DisplayName("모든 채용 공고 목록 조회 테스트")
+	void getAllJobPostsTest(){
+		// given
+		// 가상의 JobPost 객체들을 생성
+		List<JobPost> mockJobPostList = new ArrayList<>();
+		mockJobPostList.add(initJobPost(2L, 6L));
+		mockJobPostList.add(initJobPost(2L, 5L));
+		mockJobPostList.add(initJobPost(2L, 4L));
+		mockJobPostList.add(initJobPost(1L, 3L));
+		mockJobPostList.add(initJobPost(1L, 2L));
+		mockJobPostList.add(initJobPost(1L, 1L));
+
+		when(jobPostRepository.findAllByOrderByIdDesc()).thenReturn(mockJobPostList);
+
+		// when
+		List<JobPostFeedResponseDto> result = jobPostService.getAllJobPosts();
+
+		// then
+		assertEquals(mockJobPostList.size(), result.size());
+	}
+
+	JobPost initJobPost(Long companyId, Long jobPostId) {
 		// 초기 JobPost 인스턴스 생성
-		Company company = Company.builder().id(100L).build();
+		Company company = Company.builder().id(companyId).build();
 		JobPost jobPost = JobPost.builder()
-				.id(37L).company(company).position("테스트 포지션")
+				.id(jobPostId).company(company).position("테스트 포지션")
 				.reward(1_500_000L).skill("테스트 스킬")
 				.contents("테스트 채용 공고 내용").build();
 		return jobPost;
