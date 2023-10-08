@@ -24,8 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.recruitPageProject.common.exception.CustomErrorCode.JOBPOST_NOT_FOUND;
-import static com.recruitPageProject.common.exception.CustomErrorCode.NO_AUTHORIZATION;
+import static com.recruitPageProject.common.exception.CustomErrorCode.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -207,6 +206,41 @@ public class JobPostServiceTest {
 		assertEquals("테스트 스킬", responseDto.getSkill());
 		assertEquals(1_500_000L, responseDto.getReward());
 		assertEquals("테스트 채용 공고 내용", responseDto.getContents());
+	}
+
+	@Test
+	@DisplayName("채용 공고 검색 테스트 - 검색어가 있을 때")
+	void searchJobPostsTest1() {
+		// given
+		String search = "원티드";
+
+		List<JobPost> mockJobPostList = new ArrayList<>();
+		JobPost jobPost1 = initJobPost(1L, 1L);
+		JobPost jobPost2 = initJobPost(1L, 2L);
+		JobPost jobPost3 = initJobPost(1L, 3L);
+		mockJobPostList.add(jobPost1);
+		mockJobPostList.add(jobPost2);
+		mockJobPostList.add(jobPost3);
+
+		when(jobPostRepository.searchJobPosts(search)).thenReturn(mockJobPostList);
+
+		// when
+		List<JobPostFeedResponseDto> responseDtoList = jobPostService.searchJobPosts(search);
+
+		// then
+		assertEquals(mockJobPostList.size(), responseDtoList.size());
+	}
+
+	@Test
+	@DisplayName("채용 공고 검색 테스트 - 검색어가 없을 때")
+	void searchJobPostsTest2() {
+		// when
+		CustomException exception = assertThrows(CustomException.class, () -> jobPostService.searchJobPosts(""));
+
+		// then
+		assertEquals(EMPTY_SEARCH, exception.getErrorCode());
+		assertEquals("검색어를 입력하지 않았습니다.", exception.getErrorCode().getErrorMessage());
+		assertEquals(HttpStatus.BAD_REQUEST.value(), exception.getErrorCode().getErrorCode());
 	}
 
 	JobPost initJobPost(Long companyId, Long jobPostId) {
